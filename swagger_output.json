@@ -1,25 +1,26 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "Book Store API",
-    "description": "API documentation for the Book Store application.",
+    "title": "Talented JobMarket API",
+    "description": "API documentation for the Talented JobMarket application. This API facilitates the recruitment process, managing user accounts (candidates and recruiters) and job applications.",
     "version": "1.0.0"
   },
-  "host": "bookstore-s1zp.onrender.com",
+  "host": "localhost:3000",
   "basePath": "/",
   "schemes": [
-    "https"
+    "http"
   ],
   "securityDefinitions": {
     "bearerAuth": {
       "type": "apiKey",
       "in": "header",
       "name": "Authorization",
-      "description": "JWT Authorization header using the Bearer scheme."
+      "description": "JWT Authorization header using the Bearer scheme. Example: \"Bearer YOUR_TOKEN\""
     }
   },
   "paths": {
-    "/auth/login": {
+   
+    "/user/register": {
       "post": {
         "description": "",
         "parameters": [
@@ -29,7 +30,19 @@
             "schema": {
               "type": "object",
               "properties": {
-                "username": {
+                "firstName": {
+                  "example": "any"
+                },
+                "lastName": {
+                  "example": "any"
+                },
+                "email": {
+                  "example": "any"
+                },
+                "type_user":{
+                  "example":"['candidate','recruiter']" 
+                },
+                "profile": {
                   "example": "any"
                 },
                 "password": {
@@ -49,200 +62,185 @@
         }
       }
     },
-    "/books": {
-      "get": {
-        "description": "",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "Authorization",
-            "in": "header",
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      },
+    "/user/login": {
       "post": {
         "description": "",
         "parameters": [
           {
-            "name": "Authorization",
-            "in": "header",
-            "type": "string"
-          }
-          ,
-           {
-            "name": "Content-Type",
-            "in": "header",
-            "type": "string"
-          },
-           {
             "name": "body",
             "in": "body",
             "schema": {
               "type": "object",
               "properties": {
-                "title": {
-                  "example": "Poor Dad, Rich Dad"
+                "email": {
+                  "example": "any"
                 },
-                "author": {
-                  "example": "Robert Kiyosaki"
-                },
-                "isbn": {
-                  "example": "978-1612680194"
-                },
-                "publicationDate": {
-                  "example": "2021-01-01"
-                },
-                "genre": {
-                  "example": "Finance"
-                },
-                "description": {
-                  "example": "A book about personal finance and investing."
-                },
-                "pdfFile": {
-                  "example": "https://example.com/poor_dad_rich_dad.pdf"
-                },
-                "publisher": {
-                  "example": "Rich Dad Company"
-                },
-                "pageCount": {
-                  "example": 300
+                "password": {
+                  "example": "any"
                 }
               }
             }
           }
         ],
         "responses": {
-          "201": {
-            "description": "Created"
-          },
           "400": {
             "description": "Bad Request"
-          },
-          "401": {
-            "description": "Unauthorized"
-          }
-        }
-      }
-    },
-    "/books/{id}": {
-      "get": {
-        "description": "",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "Authorization",
-            "in": "header",
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "404": {
-            "description": "Not Found"
           },
           "500": {
             "description": "Internal Server Error"
           }
         }
-      },
-      "put": {
+      }
+    },
+    "/applications/candidates/{id}": {
+      "get": {
         "description": "",
         "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "type": "string"
+          },
           {
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "string"
-          },
-          {
-            "name": "Authorization",
-            "in": "header",
             "type": "string"
           }
 
-          ,
-           {
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/applications/candidates": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/recruitments/status/{status}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "status",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/recruitments{jobOpportunityId}/notifications": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "jobOpportunityId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      },
+      "post": {
+        "description": "",
+        "parameters": [
+
+          {
+            "name": "Authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "jobOpportunityId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
             "name": "body",
             "in": "body",
             "schema": {
               "type": "object",
               "properties": {
-                "title": {
-                  "example": "Poor Dad, Rich Dad"
+                "application" :{
+                  "example": "any"
                 },
-                "author": {
-                  "example": "Robert Kiyosaki"
+                "status": {
+                  "example": "[pending, reviewed, shortlisted, interviewing, offered, rejected]"
                 },
-                "isbn": {
-                  "example": "978-1612680194"
+                "details": {
+                  "example": "Your application has been received."
                 },
-                "publicationDate": {
-                  "example": "2021-01-01"
+                "recruiter": {
+                  "example": "any"
                 },
-                "genre": {
-                  "example": "Finance"
-                },
-                "description": {
-                  "example": "A book about personal finance and investing."
-                },
-                "pdfFile": {
-                  "example": "https://example.com/poor_dad_rich_dad.pdf"
-                },
-                "publisher": {
-                  "example": "Rich Dad Company"
-                },
-                "pageCount": {
-                  "example": 300
+                "applicant": {
+                  "example": "any"
                 }
+                ,
+                "jobOpportunity": {
+                  "example": "any"
+                }
+                
+                
               }
             }
           }
+
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "404": {
-            "description": "Not Found"
+          "default": {
+            "description": ""
           }
         }
-      },
-      "delete": {
+      }
+    },
+    "/recruitments/notifications/{id}": {
+      "put": {
         "description": "",
         "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "type": "string"
+          },
           {
             "name": "id",
             "in": "path",
@@ -250,52 +248,65 @@
             "type": "string"
           },
           {
-            "name": "Authorization",
-            "in": "header",
-            "type": "string"
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "application" :{
+                  "example": "any"
+                },
+                "status": {
+                  "example": "[pending, reviewed, shortlisted, interviewing, offered, rejected]"
+                },
+                "details": {
+                  "example": "Your application has been received."
+                },
+                "recruiter": {
+                  "example": "any"
+                },
+                "applicant": {
+                  "example": "any"
+                }
+                ,
+                "jobOpportunity": {
+                  "example": "any"
+                }
+                
+                
+              }
+            }
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "404": {
-            "description": "Not Found"
-          },
-          "500": {
-            "description": "Internal Server Error"
+          "default": {
+            "description": ""
           }
         }
-      }
-    },
-    "/publishers": {
-      "get": {
+      },
+      "delete": {
         "description": "",
-        "produces": [
-          "application/json"
-        ],
         "parameters": [
           {
             "name": "Authorization",
             "in": "header",
             "type": "string"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "500": {
-            "description": "Internal Server Error"
+          "default": {
+            "description": ""
           }
         }
-      },
+      }
+    },
+    "/recruitments": {
       "post": {
         "description": "",
         "parameters": [
@@ -305,117 +316,77 @@
             "type": "string"
           },
           {
-            "name": "Content-Type",
-            "in": "header",
-            "type": "string"
-          },
-           {
             "name": "body",
             "in": "body",
             "schema": {
               "type": "object",
               "properties": {
-                "firstName": {
-                  "example": "John"
+                "title": {
+                  "example": "any"
                 },
-                 "lastName": {
-                  "example": "Doe"
+                "description": {
+                  "example": "any"
                 },
-                "email": {
-                  "example": "johndoe@gmail.com"
+                "requirements": {
+                  "example": "[Web Development, JavaScript, React, Node.js, MongoDB, Express]"
                 },
-                 "phone": {
-                  "example": "John"
+                "responsibilities": {
+                  "example": "[Develop and maintain web applications, Collaborate with cross-functional teams, Write clean and efficient code]"
                 },
-                "username": {
-                  "example": "johndoe"
+                "location": {
+                  "example": "any"
                 },
-                "password": {
-                  "example": "P@ssw0rd1234!#948"
-                }
+                "contract": {
+                  "example": "['Full-time', 'Part-time', 'Internship', 'Temporary', 'Contract', 'Freelance', 'Remote']"
+                },
+                "salary": {
+                  "example": "any"
+                },
+                "education": {
+                  "example": "[Bachelor's Degree, Master's Degree]"
+                },
+                "experience": {
+                  "example": "[1-3 years, 3-5 years, 5+ years]"
+                },
+                "closingDate": {
+                  "example": "2025-12-31"
+                },
+                "recruiter":{
+                  "example": "any"
+                },
+                "status": {
+                  "example": "[open, close, draft]"
+                } 
               }
             }
           }
         ],
         "responses": {
-          "201": {
-            "description": "Created"
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "401": {
-            "description": "Unauthorized"
+          "default": {
+            "description": ""
           }
         }
       }
     },
-    "/publishers/{id}/books": {
+    "/recruitments/{id}": {
       "get": {
         "description": "",
-        "produces": [
-          "application/json"
-        ],
         "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "type": "string"
+          },
           {
             "name": "id",
             "in": "path",
             "required": true,
             "type": "string"
-          },
-          {
-            "name": "Authorization",
-            "in": "header",
-            "type": "string"
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "404": {
-            "description": "Not Found"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/publishers/{id}": {
-      "get": {
-        "description": "",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "Authorization",
-            "in": "header",
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "404": {
-            "description": "Not Found"
-          },
-          "500": {
-            "description": "Internal Server Error"
+          "default": {
+            "description": ""
           }
         }
       },
@@ -423,57 +394,65 @@
         "description": "",
         "parameters": [
           {
+            "name": "Authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
             "name": "id",
             "in": "path",
             "required": true,
             "type": "string"
           },
           {
-            "name": "Authorization",
-            "in": "header",
-            "type": "string"
-          },
-           {
             "name": "body",
             "in": "body",
             "schema": {
               "type": "object",
               "properties": {
-                "firstName": {
-                  "example": "John"
+                "title": {
+                  "example": "any"
                 },
-               
-                 "lastName": {
-                  "example": "Doe"
+                "description": {
+                  "example": "any"
                 },
-                "email": {
-                  "example": "johndoe@gmail.com"
+                "requirements": {
+                  "example": "[Web Development, JavaScript, React, Node.js, MongoDB, Express]"
                 },
-                 "phone": {
-                  "example": "John"
+                "responsibilities": {
+                  "example": "[Develop and maintain web applications, Collaborate with cross-functional teams, Write clean and efficient code]"
                 },
-                "username": {
-                  "example": "johndoe"
+                "location": {
+                  "example": "any"
                 },
-                "password": {
-                  "example": "P@ssw0rd1234!#948"
-                }
+                "contract": {
+                  "example": "['Full-time', 'Part-time', 'Internship', 'Temporary', 'Contract', 'Freelance', 'Remote']"
+                },
+                "salary": {
+                  "example": "any"
+                },
+                "education": {
+                  "example": "[Bachelor's Degree, Master's Degree]"
+                },
+                "experience": {
+                  "example": "[1-3 years, 3-5 years, 5+ years]"
+                },
+                "closingDate": {
+                  "example": "2025-12-31"
+                },
+                "recruiter":{
+                  "example": "any"
+                },
+                "status": {
+                  "example": "[open, close, draft]"
+                } 
               }
             }
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "404": {
-            "description": "Not Found"
+          "default": {
+            "description": ""
           }
         }
       },
@@ -481,157 +460,171 @@
         "description": "",
         "parameters": [
           {
+            "name": "Authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
             "name": "id",
             "in": "path",
             "required": true,
             "type": "string"
-          },
-          {
-            "name": "Authorization",
-            "in": "header",
-            "type": "string"
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "404": {
-            "description": "Not Found"
-          },
-          "500": {
-            "description": "Internal Server Error"
+          "default": {
+            "description": ""
           }
         }
       }
     }
-    
-  },
-  "definitions": {
-    "Book": {
-      "type": "object",
-      "properties": {
-        "type": {
-          "type": "string",
-          "example": "object"
-        },
-        "required": {
-          "type": "array",
-          "example": [
-            "title",
-            "author",
-            "isbn",
-            "publicationDate",
-            "genre",
-            "description",
-            "pdfFile",
-            "publisher",
-            "pageCount"
-          ],
-          "items": {
+    ,
+    "/applications": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
             "type": "string"
-          }
-        },
-        "properties": {
-          "type": "object",
-          "properties": {
-            "title": {
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
               "type": "object",
               "properties": {
-                "type": {
-                  "type": "string",
-                  "example": "string"
-                }
-              }
-            },
-            "author": {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string",
-                  "example": "string"
-                }
-              }
-            },
-            "isbn": {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string",
-                  "example": "string"
-                }
-              }
-            },
-            "publicationDate": {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string",
-                  "example": "string"
+                "applicant" :{
+                  "example": "any"
                 },
-                "format": {
-                  "type": "string",
-                  "example": "date"
-                }
-              }
-            },
-            "genre": {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string",
-                  "example": "string"
-                }
-              }
-            },
-            "description": {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string",
-                  "example": "string"
-                }
-              }
-            },
-            "pdfFile": {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string",
-                  "example": "string"
-                }
-              }
-            },
-            "publisher": {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string",
-                  "example": "string"
-                }
-              }
-            },
-            "pageCount": {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string",
-                  "example": "integer"
+                "jobOpportunity" :{
+                  "example": "any"
                 },
-                "minimum": {
-                  "type": "number",
-                  "example": 1
+                "resume" :{
+                  "example": "any"
+                },
+                "coverLetter" :{
+                  "example": "any"
+                },
+                "transcript" :{
+                  "example": "any"
+                },
+                "skills" :{
+                  "example": "[JavaScript, React, Node.js]"
+                },
+                "languages" :{
+                  "example": "[English, French]"
+                },
+                "status" :{
+                  "example": "[pending, reviewed, shortlisted, interviewing, offered, rejected]"
                 }
               }
             }
           }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
         }
       }
     },
-    "Publisher": {
+    "/applications/{id}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      },
+      "put": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "applicant" :{
+                  "example": "any"
+                },
+                "jobOpportunity" :{
+                  "example": "any"
+                },
+                "resume" :{
+                  "example": "any"
+                },
+                "coverLetter" :{
+                  "example": "any"
+                },
+                "transcript" :{
+                  "example": "any"
+                },
+                "skills" :{
+                  "example": "[JavaScript, React, Node.js]"
+                },
+                "languages" :{
+                  "example": "[English, French]"
+                },
+                "status" :{
+                  "example": "[pending, reviewed, shortlisted, interviewing, offered, rejected]"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      },
+      "delete": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Applicant": {
       "type": "object",
       "properties": {
         "type": {
@@ -642,8 +635,8 @@
           "type": "array",
           "example": [
             "firstName",
+            "lastName",
             "email",
-            "username",
             "password"
           ],
           "items": {
@@ -659,6 +652,10 @@
                 "type": {
                   "type": "string",
                   "example": "string"
+                },
+                "example": {
+                  "type": "string",
+                  "example": "John"
                 }
               }
             },
@@ -668,6 +665,10 @@
                 "type": {
                   "type": "string",
                   "example": "string"
+                },
+                "example": {
+                  "type": "string",
+                  "example": "Doe"
                 }
               }
             },
@@ -681,24 +682,23 @@
                 "format": {
                   "type": "string",
                   "example": "email"
+                },
+                "example": {
+                  "type": "string",
+                  "example": "john.doe@example.com"
                 }
               }
             },
-            "phone": {
+            "profile": {
               "type": "object",
               "properties": {
                 "type": {
                   "type": "string",
                   "example": "string"
-                }
-              }
-            },
-            "username": {
-              "type": "object",
-              "properties": {
-                "type": {
+                },
+                "example": {
                   "type": "string",
-                  "example": "string"
+                  "example": "https://example.com/profile.jpg"
                 }
               }
             },
@@ -708,24 +708,105 @@
                 "type": {
                   "type": "string",
                   "example": "string"
+                },
+                "example": {
+                  "type": "string",
+                  "example": "Password123"
                 }
               }
-            },
-            "books": {
+            }
+          }
+        }
+      }
+    },
+    "Recruiter": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "example": "object"
+        },
+        "required": {
+          "type": "array",
+          "example": [
+            "firstName",
+            "lastName",
+            "email",
+            "password"
+          ],
+          "items": {
+            "type": "string"
+          }
+        },
+        "properties": {
+          "type": "object",
+          "properties": {
+            "firstName": {
               "type": "object",
               "properties": {
                 "type": {
                   "type": "string",
-                  "example": "array"
+                  "example": "string"
                 },
-                "items": {
-                  "type": "object",
-                  "properties": {
-                    "type": {
-                      "type": "string",
-                      "example": "object"
-                    }
-                  }
+                "example": {
+                  "type": "string",
+                  "example": "Jane"
+                }
+              }
+            },
+            "lastName": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "example": {
+                  "type": "string",
+                  "example": "Smith"
+                }
+              }
+            },
+            "email": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "format": {
+                  "type": "string",
+                  "example": "email"
+                },
+                "example": {
+                  "type": "string",
+                  "example": "jane.smith@company.com"
+                }
+              }
+            },
+            "profile": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "example": {
+                  "type": "string",
+                  "example": "https://example.com/profile.jpg"
+                }
+              }
+            },
+            "password": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "example": {
+                  "type": "string",
+                  "example": "RecruiterPass"
                 }
               }
             }
@@ -743,7 +824,7 @@
         "required": {
           "type": "array",
           "example": [
-            "username",
+            "email",
             "password"
           ],
           "items": {
@@ -753,12 +834,20 @@
         "properties": {
           "type": "object",
           "properties": {
-            "username": {
+            "email": {
               "type": "object",
               "properties": {
                 "type": {
                   "type": "string",
                   "example": "string"
+                },
+                "format": {
+                  "type": "string",
+                  "example": "email"
+                },
+                "example": {
+                  "type": "string",
+                  "example": "user@example.com"
                 }
               }
             },
@@ -768,6 +857,214 @@
                 "type": {
                   "type": "string",
                   "example": "string"
+                },
+                "example": {
+                  "type": "string",
+                  "example": "password123"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "Application": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "example": "object"
+        },
+        "required": {
+          "type": "array",
+          "example": [
+            "applicant",
+            "jobOpportunity",
+            "resume"
+          ],
+          "items": {
+            "type": "string"
+          }
+        },
+        "properties": {
+          "type": "object",
+          "properties": {
+            "applicant": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "description": {
+                  "type": "string",
+                  "example": "Applicant ID"
+                },
+                "example": {
+                  "type": "string",
+                  "example": "654321..."
+                }
+              }
+            },
+            "jobOpportunity": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "description": {
+                  "type": "string",
+                  "example": "Job Opportunity ID"
+                },
+                "example": {
+                  "type": "string",
+                  "example": "123456..."
+                }
+              }
+            },
+            "resume": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "format": {
+                  "type": "string",
+                  "example": "url"
+                },
+                "description": {
+                  "type": "string",
+                  "example": "URL to the resume file"
+                },
+                "example": {
+                  "type": "string",
+                  "example": "https://example.com/resume.pdf"
+                }
+              }
+            },
+            "coverLetter": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "format": {
+                  "type": "string",
+                  "example": "url"
+                },
+                "description": {
+                  "type": "string",
+                  "example": "URL to the cover letter file"
+                },
+                "example": {
+                  "type": "string",
+                  "example": "https://example.com/coverLetter.pdf"
+                }
+              }
+            },
+            "transcript": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "format": {
+                  "type": "string",
+                  "example": "url"
+                },
+                "description": {
+                  "type": "string",
+                  "example": "URL to the transcript file"
+                },
+                "example": {
+                  "type": "string",
+                  "example": "https://example.com/transcript.pdf"
+                }
+              }
+            },
+            "skills": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "description": {
+                  "type": "string",
+                  "example": "Comma-separated list of skills"
+                },
+                "example": {
+                  "type": "string",
+                  "example": "JavaScript,React,Node.js"
+                }
+              }
+            },
+            "languages": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "description": {
+                  "type": "string",
+                  "example": "Comma-separated list of languages"
+                },
+                "example": {
+                  "type": "string",
+                  "example": "English,French"
+                }
+              }
+            },
+            "status": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "enum": {
+                  "type": "array",
+                  "example": [
+                    "pending",
+                    "reviewed",
+                    "shortlisted",
+                    "interviewing",
+                    "offered",
+                    "rejected"
+                  ],
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "description": {
+                  "type": "string",
+                  "example": "Application status"
+                },
+                "example": {
+                  "type": "string",
+                  "example": "pending"
+                }
+              }
+            },
+            "selection": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "description": {
+                  "type": "string",
+                  "example": "Selection notification ID"
+                },
+                "example": {
+                  "type": "string",
+                  "example": "789012..."
                 }
               }
             }

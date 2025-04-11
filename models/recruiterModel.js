@@ -44,4 +44,4 @@ const recruiterSchema = new Schema({
     }
 }, { timestamps: true });
 
-const Recruiter = mongoose.model('Recruiter', recruiterSchema);
+const Recruiter = mongoose.model('Recruiters', recruiterSchema);

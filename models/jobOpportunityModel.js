@@ -28,14 +28,18 @@ const jobOpportunitySchema = new Schema({
      contract: {
         type: String,
         required: true,
-         enum: ['Fixed-term Contract', 'Permanent Contract'],
+         enum: ['Full-time', 'Part-time', 'Internship', 'Temporary', 'Contract', 'Freelance', 'Remote'],
         default: 'Permanent Contract'
+    },
+    salary: {
+        type: String,
+        trim: true
     },
     education: {
         type: String,
         trim: true
     },
-    salaryRange: {
+    experience: {
         type: String,
         trim: true
     },
@@ -57,7 +61,7 @@ const jobOpportunitySchema = new Schema({
     }],
     status: {
         type: String,
-        enum: ['open', 'closed', 'draft'],
+        enum: ['open', 'close', 'draft'],
         default: 'open'
     },
     createdAt: {
@@ -70,7 +74,7 @@ const jobOpportunitySchema = new Schema({
     }
 }, { timestamps: true });
 
-const JobOpportunity = mongoose.model('JobOpportunity', jobOpportunitySchema);
+const JobOpportunity = mongoose.model('JobOpportunities', jobOpportunitySchema);
 
 module.exports = JobOpportunity;
 

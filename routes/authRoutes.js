@@ -1,73 +1,37 @@
-/* eslint-disable no-undef */
 const express = require('express');
 const router = express.Router();
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const env = require("dotenv").config();
-const publisherModel = require('../models/publisherModel');
+const userController = require('../controllers/controller');
+const auth = require('../middleware/auth'); // Optional: for protecting routes
 
+// --- Applicant/Recruiter Registration and Login ---
 
-/**
- * @swagger
- * /auth/login:
- * post:
- * summary: User login
- * requestBody:
- * required: true
- * content:
- * application/json:
- * schema:
- * $ref: '#/definitions/Login'
- * responses:
- * 200:
- * description: Login successful, JWT token in Authorization header.
- * headers:
- * Authorization:
- * schema:
- * type: string
- * description: JWT token for authorization.
- * 400:
- * description: Invalid credentials.
- * 500:
- * description: Server error.
- */
-router.post('/login', async (req, res) => {
-  const { email, password } = req.body;
+// POST register a new user (applicant or recruiter)
+router.post('/register',
+    userController.addUserValidationRules,
+    // Middleware for handling profile image upload
+    userController.addUser
+);
 
-  try {
-    
-    const publisher = await publisherModel.findOne({ email });
+// POST login user
+router.post('/login', userController.login);
 
-    if (!publisher) {
-      return res.status(400).json({ message: 'Invalid credentials' });
-    }
+// --- Applicant Specific Routes ---
 
-     const isMatch = await bcrypt.compare(password, publisher.password);
+// GET applicant by ID (protected route - requires authentication)
+router.get('/candidates/:id',
+    // authMiddleware, // Uncomment if authentication is required for this route
+    userController.getCandidateById
+);
 
-    if (!isMatch) {
-      return res.status(400).json({ message: 'Invalid credentials' });
-     }
+// GET all candidates (protected route - requires authentication)
+router.get('/candidates',
+    // authMiddleware, // Uncomment if authentication is required for this route
+    userController.getAllCandidates
+);
 
-    const payload = {
-      publisher: {
-        id: publisher.id,
-      },
-    };
-
-    jwt.sign(
-      payload,
-      process.env.JWT_SECRET,
-      { expiresIn: '1h' },
-      (err, token) => {
-        if (err) throw err;
-        // Sending token in response header
-        res.header('Authorization', `Bearer ${token}`).json({ message: 'Login successful' });
-      }
-    );
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send('Server error');
-  }
-});
+// --- Recruiter Specific Routes (if you want separate recruiter retrieval) ---
+// You might want to create a separate recruiter controller for more specific actions
+// router.get('/recruiters/:id', recruiterController.getRecruiterById);
+// router.get('/recruiters', recruiterController.getAllRecruiters);
 
 module.exports = router;

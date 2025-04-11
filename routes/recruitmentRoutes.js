@@ -1,0 +1,55 @@
+const express = require('express');
+const router = express.Router();
+const recruitmentController = require('../controllers/recruitmentController');
+
+// --- Job Opportunity Routes ---
+
+// GET all job opportunities
+router.get('/', recruitmentController.getJobOpportunities);
+
+// GET job opportunity by ID
+router.get('/:id', recruitmentController.getJobOpportunityById);
+
+// GET job opportunities by status
+router.get('/status/:status', recruitmentController.getJobOpportunitiesByStatus);
+
+// POST a new job opportunity
+router.post('/',
+    recruitmentController.createJobOpportunityValidationRules,
+    recruitmentController.createJobOpportunity
+);
+
+// PUT update a job opportunity by ID
+router.put('/:id',
+    recruitmentController.updateJobOpportunityValidationRules,
+    recruitmentController.updateJobOpportunity
+);
+
+// DELETE a job opportunity by ID
+router.delete('/:id', recruitmentController.deleteJobOpportunity);
+
+// --- Selection Notification Routes (nested under job opportunities for creation/retrieval) ---
+
+// GET all selection notifications for a specific job opportunity
+router.get('/:jobOpportunityId/notifications',
+    recruitmentController.getSelectionNotificationsByJobOpportunity
+);
+
+// POST a new selection notification for a specific job opportunity
+router.post('/:jobOpportunityId/notifications',
+    recruitmentController.createSelectionNotificationValidationRules,
+    recruitmentController.createSelectionNotification
+);
+
+// --- Selection Notification Routes (for update and delete by notification ID) ---
+
+// PUT update a selection notification by ID
+router.put('/notifications/:id',
+    recruitmentController.updateSelectionNotificationValidationRules,
+    recruitmentController.updateSelectionNotification
+);
+
+// DELETE a selection notification by ID
+router.delete('/notifications/:id', recruitmentController.deleteSelectionNotification);
+
+module.exports = router;

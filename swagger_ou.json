@@ -1,578 +1,6 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "REST API for Book Store",
-    "description": "This is a REST API for CSE341 course. The purpose of this API is to provide a way to manage Books and their Publishers. This API will allow you to create, read, update, and delete Books and their Publishers. This API is built using Node.js, Express, and MongoDB. The API is hosted on Render and the database is hosted on MongoDB Atlas. The API is secured using JWT tokens. The API is documented using Swagger. The API is tested using Postman. The API is deployed using GitHub Actions",
-    "version": "1.0.0"
-  },
-  "host": "bookstore-s1zp.onrender.com",
-  "basePath": "/",
-  "schemes": [
-    "https"
-  ],
-  "securityDefinitions": {
-    "bearerAuth": {
-      "type": "apiKey",
-      "in": "header",
-      "name": "Authorization",
-      "description": "JWT Authorization header using the Bearer scheme."
-    }
-  },
-  "paths": {
-    "/auth/login": {
-      "post": {
-        "summary": "User login",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "username": {
-                    "type": "string",
-                    "description": "The user's username."
-                  },
-                  "password": {
-                    "type": "string",
-                    "description": "The user's password."
-                  }
-                },
-                "required": [
-                  "username",
-                  "password"
-                ]
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Login successful, JWT token in Authorization header.",
-            "headers": {
-              "Authorization": {
-                "schema": {
-                  "type": "string",
-                  "description": "JWT token for authorization."
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Invalid credentials."
-          },
-          "500": {
-            "description": "Server error."
-          }
-        }
-      }
-    },
-    "/books/": {
-      "get": {
-        "description": "Get all books",
-        "produces": [
-          "application/json"
-        ],
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      },
-      "post": {
-        "description": "Create a new book",
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "required": [
-                  "title",
-                  "author",
-                  "isbn",
-                  "publicationDate",
-                  "genre",
-                  "description",
-                  "pdfFile",
-                  "publisher",
-                  "pageCount"
-                ],
-                "properties": {
-                  "title": {
-                    "type": "string",
-                    "description": "The title of the book."
-                  },
-                  "author": {
-                    "type": "string",
-                    "description": "The author of the book."
-                  },
-                  "isbn": {
-                    "type": "string",
-                    "description": "The ISBN of the book."
-                  },
-                  "publicationDate": {
-                    "type": "string",
-                    "format": "date",
-                    "description": "The publication date of the book."
-                  },
-                  "genre": {
-                    "type": "string",
-                    "description": "The genre of the book."
-                  },
-                  "description": {
-                    "type": "string",
-                    "description": "The description of the book."
-                  },
-                  "pdfFile": {
-                    "type": "string",
-                    "description": "The PDF file path or URL."
-                  },
-                  "publisher": {
-                    "type": "string",
-                    "description": "The ID of the publisher."
-                  },
-                  "pageCount": {
-                    "type": "integer",
-                    "description": "The number of pages in the book.",
-                    "minimum": 1
-                  }
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "Created"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "400": {
-            "description": "Bad Request"
-          }
-        }
-      }
-    },
-    "/books/{id}": {
-      "get": {
-        "description": "Get a book by ID",
-        "produces": [
-          "application/json"
-        ],
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "404": {
-            "description": "Not Found"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      },
-      "put": {
-        "description": "Update a book by ID",
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "required": [
-                  "title",
-                  "author",
-                  "isbn",
-                  "publicationDate",
-                  "genre",
-                  "description",
-                  "pdfFile",
-                  "publisher",
-                  "pageCount"
-                ],
-                "properties": {
-                  "title": {
-                    "type": "string",
-                    "description": "The title of the book."
-                  },
-                  "author": {
-                    "type": "string",
-                    "description": "The author of the book."
-                  },
-                  "isbn": {
-                    "type": "string",
-                    "description": "The ISBN of the book."
-                  },
-                  "publicationDate": {
-                    "type": "string",
-                    "format": "date",
-                    "description": "The publication date of the book."
-                  },
-                  "genre": {
-                    "type": "string",
-                    "description": "The genre of the book."
-                  },
-                  "description": {
-                    "type": "string",
-                    "description": "The description of the book."
-                  },
-                  "pdfFile": {
-                    "type": "string",
-                    "description": "The PDF file path or URL."
-                  },
-                  "publisher": {
-                    "type": "string",
-                    "description": "The ID of the publisher."
-                  },
-                  "pageCount": {
-                    "type": "integer",
-                    "description": "The number of pages in the book.",
-                    "minimum": 1
-                  }
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "404": {
-            "description": "Not Found"
-          }
-        }
-      }
-    },
-    "/publishers/": {
-      "get": {
-        "description": "Get all publishers",
-        "produces": [
-          "application/json"
-        ],
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      },
-      "post": {
-        "description": "Create a new publisher",
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "required": [
-                  "firstName",
-                  "email",
-                  "username",
-                  "password"
-                ],
-                "properties": {
-                  "firstName": {
-                    "type": "string",
-                    "description": "The first name of the publisher."
-                  },
-                  "lastName": {
-                    "type": "string",
-                    "description": "The last name of the publisher."
-                  },
-                  "email": {
-                    "type": "string",
-                    "format": "email",
-                    "description": "The email address of the publisher."
-                  },
-                  "phone": {
-                    "type": "string",
-                    "description": "The phone number of the publisher."
-                  },
-                  "username": {
-                    "type": "string",
-                    "description": "The username of the publisher."
-                  },
-                  "password": {
-                    "type": "string",
-                    "description": "The password of the publisher."
-                  },
-                  "books": {
-                    "type": "array",
-                    "items": {
-                      "type": "string"
-                    },
-                    "description": "Array of book IDs associated with the publisher."
-                  }
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "Created"
-          },
-          "400": {
-            "description": "Bad Request"
-          }
-        }
-      }
-    },
-    "/publishers/{id}/books": {
-      "get": {
-        "description": "Get a publisher with its books",
-        "produces": [
-          "application/json"
-        ],
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "404": {
-            "description": "Not Found"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/publishers/{id}": {
-      "get": {
-        "description": "Get a publisher by ID",
-        "produces": [
-          "application/json"
-        ],
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "404": {
-            "description": "Not Found"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      },
-      "put": {
-        "description": "Update the publisher information",
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "required": [
-                  "firstName",
-                  "email",
-                  "username",
-                  "password"
-                ],
-                "properties": {
-                  "firstName": {
-                    "type": "string",
-                    "description": "The first name of the publisher."
-                  },
-                  "lastName": {
-                    "type": "string",
-                    "description": "The last name of the publisher."
-                  },
-                  "email": {
-                    "type": "string",
-                    "format": "email",
-                    "description": "The email address of the publisher."
-                  },
-                  "phone": {
-                    "type": "string",
-                    "description": "The phone number of the publisher."
-                  },
-                  "username": {
-                    "type": "string",
-                    "description": "The username of the publisher."
-                  },
-                  "password": {
-                    "type": "string",
-                    "description": "The password of the publisher."
-                  },
-                  "books": {
-                    "type": "array",
-                    "items": {
-                      "type": "string"
-                    },
-                    "description": "Array of book IDs associated with the publisher."
-                  }
-                }
-              }
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "404": {
-            "description": "Not Found"
-          }
-        }
-      },
-      "delete": {
-        "description": "Delete a publisher by ID",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "404": {
-            "description": "Not Found"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    }
-  }
-}
-
-
-
-
-
-
-{
-  "swagger": "2.0",
-  "info": {
     "title": "Book Store API",
     "description": "API documentation for the Book Store application.",
     "version": "1.0.0"
@@ -591,184 +19,7 @@
     }
   },
   "paths": {
-    "/": {
-      "get": {
-        "description": "",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "Authorization",
-            "in": "header",
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      },
-      "post": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "Authorization",
-            "in": "header",
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "Created"
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "401": {
-            "description": "Unauthorized"
-          }
-        }
-      }
-    },
-    "/{id}": {
-      "get": {
-        "description": "",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "Authorization",
-            "in": "header",
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "404": {
-            "description": "Not Found"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      },
-      "put": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "Authorization",
-            "in": "header",
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "404": {
-            "description": "Not Found"
-          }
-        }
-      },
-      "delete": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "Authorization",
-            "in": "header",
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "404": {
-            "description": "Not Found"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/{id}/books": {
-      "get": {
-        "description": "",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "Authorization",
-            "in": "header",
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "404": {
-            "description": "Not Found"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/login": {
+    "/auth/login": {
       "post": {
         "description": "",
         "parameters": [
@@ -797,7 +48,467 @@
           }
         }
       }
+    },
+    "/books": {
+      "get": {
+        "description": "",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "type": "string"
+          }
+          ,
+           {
+            "name": "Content-Type",
+            "in": "header",
+            "type": "string"
+          },
+           {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "title": {
+                  "example": "Poor Dad, Rich Dad"
+                },
+                "author": {
+                  "example": "Robert Kiyosaki"
+                },
+                "isbn": {
+                  "example": "978-1612680194"
+                },
+                "publicationDate": {
+                  "example": "2021-01-01"
+                },
+                "genre": {
+                  "example": "Finance"
+                },
+                "description": {
+                  "example": "A book about personal finance and investing."
+                },
+                "pdfFile": {
+                  "example": "https://example.com/poor_dad_rich_dad.pdf"
+                },
+                "publisher": {
+                  "example": "Rich Dad Company"
+                },
+                "pageCount": {
+                  "example": 300
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/books/{id}": {
+      "get": {
+        "description": "",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "put": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "type": "string"
+          }
+
+          ,
+           {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "title": {
+                  "example": "Poor Dad, Rich Dad"
+                },
+                "author": {
+                  "example": "Robert Kiyosaki"
+                },
+                "isbn": {
+                  "example": "978-1612680194"
+                },
+                "publicationDate": {
+                  "example": "2021-01-01"
+                },
+                "genre": {
+                  "example": "Finance"
+                },
+                "description": {
+                  "example": "A book about personal finance and investing."
+                },
+                "pdfFile": {
+                  "example": "https://example.com/poor_dad_rich_dad.pdf"
+                },
+                "publisher": {
+                  "example": "Rich Dad Company"
+                },
+                "pageCount": {
+                  "example": 300
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      },
+      "delete": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/publishers": {
+      "get": {
+        "description": "",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "type": "string"
+          },
+           {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "firstName": {
+                  "example": "John"
+                },
+                 "lastName": {
+                  "example": "Doe"
+                },
+                "email": {
+                  "example": "johndoe@gmail.com"
+                },
+                 "phone": {
+                  "example": "John"
+                },
+                "username": {
+                  "example": "johndoe"
+                },
+                "password": {
+                  "example": "P@ssw0rd1234!#948"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/publishers/{id}/books": {
+      "get": {
+        "description": "",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/publishers/{id}": {
+      "get": {
+        "description": "",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "put": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "type": "string"
+          },
+           {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "firstName": {
+                  "example": "John"
+                },
+               
+                 "lastName": {
+                  "example": "Doe"
+                },
+                "email": {
+                  "example": "johndoe@gmail.com"
+                },
+                 "phone": {
+                  "example": "John"
+                },
+                "username": {
+                  "example": "johndoe"
+                },
+                "password": {
+                  "example": "P@ssw0rd1234!#948"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      },
+      "delete": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
     }
+    
   },
   "definitions": {
     "Book": {
@@ -1057,298 +768,6 @@
                 "type": {
                   "type": "string",
                   "example": "string"
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-}
-
-
-
-
-
-{
-  "swagger": "2.0",
-  "info": {
-    "title": "Book Store API",
-    "description": "API documentation for the Book Store application.",
-    "version": "1.0.0"
-  },
-  "host": "bookstore-s1zp.onrender.com",
-  "basePath": "/",
-  "schemes": [
-    "https"
-  ],
-  "securityDefinitions": {
-    "bearerAuth": {
-      "type": "apiKey",
-      "in": "header",
-      "name": "Authorization",
-      "description": "JWT Authorization header using the Bearer scheme."
-    }
-  },
-  "paths": {
-    "/books": {
-      "get": {
-        "description": "",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "Authorization",
-            "in": "header",
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      },
-      "post": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "Authorization",
-            "in": "header",
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "Created"
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "401": {
-            "description": "Unauthorized"
-          }
-        }
-      }
-    },
-    "/books/{id}": {
-      "get": {
-        "description": "",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "Authorization",
-            "in": "header",
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "404": {
-            "description": "Not Found"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      },
-      "put": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "Authorization",
-            "in": "header",
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "404": {
-            "description": "Not Found"
-          }
-        }
-      },
-      "delete": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "Authorization",
-            "in": "header",
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "404": {
-            "description": "Not Found"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    }
-  },
-  "definitions": {
-    "Book": {
-      "type": "object",
-      "properties": {
-        "type": {
-          "type": "string",
-          "example": "object"
-        },
-        "required": {
-          "type": "array",
-          "example": [
-            "title",
-            "author",
-            "isbn",
-            "publicationDate",
-            "genre",
-            "description",
-            "pdfFile",
-            "publisher",
-            "pageCount"
-          ],
-          "items": {
-            "type": "string"
-          }
-        },
-        "properties": {
-          "type": "object",
-          "properties": {
-            "title": {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string",
-                  "example": "string"
-                }
-              }
-            },
-            "author": {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string",
-                  "example": "string"
-                }
-              }
-            },
-            "isbn": {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string",
-                  "example": "string"
-                }
-              }
-            },
-            "publicationDate": {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string",
-                  "example": "string"
-                },
-                "format": {
-                  "type": "string",
-                  "example": "date"
-                }
-              }
-            },
-            "genre": {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string",
-                  "example": "string"
-                }
-              }
-            },
-            "description": {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string",
-                  "example": "string"
-                }
-              }
-            },
-            "pdfFile": {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string",
-                  "example": "string"
-                }
-              }
-            },
-            "publisher": {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string",
-                  "example": "string"
-                }
-              }
-            },
-            "pageCount": {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string",
-                  "example": "integer"
-                },
-                "minimum": {
-                  "type": "number",
-                  "example": 1
                 }
               }
             }

@@ -1,3 +1,6 @@
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+
 const selectionNotificationSchema = new Schema({
     application: {
         type: Schema.Types.ObjectId,
@@ -40,6 +43,6 @@ const selectionNotificationSchema = new Schema({
     }
 }, { timestamps: true });
 
-const SelectionNotification = mongoose.model('SelectionNotification', selectionNotificationSchema);
+const SelectionNotification = mongoose.model('SelectionNotifications', selectionNotificationSchema);
 
 module.exports = SelectionNotification;

@@ -55,6 +55,6 @@ const applicationSchema = new Schema({
 // Ensure that an applicant can only apply once to the same job
 applicationSchema.index({ applicant: 1, jobOpportunity: 1 }, { unique: true });
 
-const Application = mongoose.model('Application', applicationSchema);
+const Application = mongoose.model('Applications', applicationSchema);
 
 module.exports = Application;
