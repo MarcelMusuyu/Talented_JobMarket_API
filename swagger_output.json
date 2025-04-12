@@ -5,10 +5,10 @@
     "description": "API documentation for the Talented JobMarket application. This API facilitates the recruitment process, managing user accounts (candidates and recruiters) and job applications.",
     "version": "1.0.0"
   },
-  "host": "localhost:3000",
+  "host": "talented-jobmarket-api.onrender.com",
   "basePath": "/",
   "schemes": [
-    "http"
+    "https"
   ],
   "securityDefinitions": {
     "bearerAuth": {
@@ -30,10 +30,10 @@
             "schema": {
               "type": "object",
               "properties": {
-                "firstName": {
+                "firstname": {
                   "example": "any"
                 },
-                "lastName": {
+                "lastname": {
                   "example": "any"
                 },
                 "email": {
@@ -156,7 +156,7 @@
         }
       }
     },
-    "/recruitments{jobOpportunityId}/notifications": {
+    "/recruitments/{jobOpportunityId}/notifications": {
       "get": {
         "description": "",
         "parameters": [
@@ -368,6 +368,24 @@
         }
       }
     },
+
+    "/recruitments": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
     "/recruitments/{id}": {
       "get": {
         "description": "",
@@ -529,6 +547,24 @@
         }
       }
     },
+    "/applications":{
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    }
+    ,
     "/applications/{id}": {
       "get": {
         "description": "",

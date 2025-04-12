@@ -23,15 +23,15 @@ const selectionNotificationSchema = new Schema({
     },
     recruiter: {
         type: Schema.Types.ObjectId,
-        ref: 'Recruiter'
+        ref: 'recruiters'
     },
     applicant: {
         type: Schema.Types.ObjectId,
-        ref: 'Applicant'
+        ref: 'applicants'
     },
     jobOpportunity: {
         type: Schema.Types.ObjectId,
-        ref: 'JobOpportunity'
+        ref: 'jobopportunities'
     },
     createdAt: {
         type: Date,
@@ -43,6 +43,6 @@ const selectionNotificationSchema = new Schema({
     }
 }, { timestamps: true });
 
-const SelectionNotification = mongoose.model('SelectionNotifications', selectionNotificationSchema);
+const SelectionNotification = mongoose.model('selectionnotifications', selectionNotificationSchema);
 
 module.exports = SelectionNotification;

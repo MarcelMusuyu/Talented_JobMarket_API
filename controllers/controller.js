@@ -69,12 +69,11 @@ const upload = multer({
 
 
 const addUserValidationRules = [
-    body('firstname').notEmpty().withMessage('First name is required'),
-    body('lastname').notEmpty().withMessage('Last name is required'),
+    body('firstname').notEmpty().withMessage('Firstname is required'),
+    body('lastname').notEmpty().withMessage('Lastname is required'),
     body('type_user').notEmpty().withMessage('User Type name is required'),
     body('email').isEmail().withMessage('Email must be a valid email address'),
     body('email').notEmpty().withMessage('Email is required'),
-    body('username').notEmpty().withMessage('Username is required'),
     body('password').isLength({ min: 6 }).withMessage('Password must be at least 6 characters long'),
     body('password').notEmpty().withMessage('Password is required'),
 ];
@@ -104,10 +103,10 @@ const addUser = async (req, res) => {
                     password: hash
                 });
                 newUser = await candidate.save();
-            } else {
+            } else  if (req.body.type_user === 'recruiter'){
                 const recruiter = new Recruiter({
-                    firstName: req.body.firstname,
-                    lastName: req.body.lastname,
+                    enterprise: req.body.firstname,
+                    type: req.body.lastname,
                     email: req.body.email,
                     profile: userprofilePath,
                     password: hash

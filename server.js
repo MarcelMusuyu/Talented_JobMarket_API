@@ -19,7 +19,9 @@ app.use(cors({ origin: '*' })); // Enable CORS for all routes
 
 // For parsing application/x-www-form-urlencoded
 app.use(express.urlencoded({ extended: true }));
-
+ app.use(cors({
+      exposedHeaders: ['Authorization'], //  <---  Add this line
+}));
 // Removed redundant header setting (cors already handles it)
 
 /* ***********************

@@ -7,7 +7,7 @@ const authMiddleware = require('../middleware/auth'); // Optional: for protectin
 
 // GET all applications (protected route - requires authentication)
 router.get('/',
-    // authMiddleware, // Uncomment if authentication is required
+     authMiddleware, 
     applicationController.getApplications
 );
 
@@ -20,7 +20,7 @@ router.get('/:id',
 
 // POST a new application (protected route - requires authentication)
 router.post('/',
-    // authMiddleware, // Uncomment if authentication is required
+    authMiddleware,
    
     applicationController.addApplicationValidationRules,
     applicationController.addApplication
@@ -28,14 +28,14 @@ router.post('/',
 
 // PUT update an application by ID (protected route - requires authentication)
 router.put('/:id',
-    // authMiddleware, // Uncomment if authentication is required
+    authMiddleware,
     applicationController.updteApplicationValidationRules,
     applicationController.updateApplication
 );
 
 // DELETE an application by ID (protected route - requires authentication)
 router.delete('/:id',
-    // authMiddleware, // Uncomment if authentication is required
+    authMiddleware, 
     applicationController.deleteApplication
 );
 

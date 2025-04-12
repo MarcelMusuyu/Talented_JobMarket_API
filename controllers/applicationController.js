@@ -77,8 +77,8 @@ const getApplicationById = async (req, res) => {
 const addApplicationValidationRules = [
     body('applicant').notEmpty().withMessage('Applicant ID is required'),
     body('jobOpportunity').notEmpty().withMessage('Job Opportunity ID is required'),
-    body('skills').optional().isString().trim(),
-    body('languages').optional().isString().trim(),
+    body('skills').optional().isArray().trim(),
+    body('languages').optional().isArray().trim(),
 ];
 
 const addApplication = async (req, res) => {

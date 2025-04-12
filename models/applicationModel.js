@@ -4,12 +4,12 @@ const Schema = mongoose.Schema;
 const applicationSchema = new Schema({
     applicant: {
         type: Schema.Types.ObjectId,
-        ref: 'Applicant',
+        ref: 'applicants',
         required: true
     },
     jobOpportunity: {
         type: Schema.Types.ObjectId,
-        ref: 'JobOpportunity',
+        ref: 'jobopportunities',
         required: true
     },
     resume: {
@@ -19,12 +19,14 @@ const applicationSchema = new Schema({
     coverLetter: {
         type: String 
     },
-     skills: {
-        type: String 
-    },
-     languages: {
-        type: String 
-    },
+     skills: [{
+        type: String,
+        trim: true
+    }],
+     languages: [{
+        type: String,
+        trim: true
+    }],
     transcript : {
         type: String // URLs or paths to other relevant documents
     },
@@ -40,7 +42,7 @@ const applicationSchema = new Schema({
 
     selection: {
         type: Schema.Types.ObjectId,
-        ref: 'SelectionNotification'
+        ref: 'selectionnotifications'
     },
     createdAt: {
         type: Date,
@@ -55,6 +57,6 @@ const applicationSchema = new Schema({
 // Ensure that an applicant can only apply once to the same job
 applicationSchema.index({ applicant: 1, jobOpportunity: 1 }, { unique: true });
 
-const Application = mongoose.model('Applications', applicationSchema);
+const Application = mongoose.model('applications', applicationSchema);
 
 module.exports = Application;

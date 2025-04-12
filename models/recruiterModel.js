@@ -32,7 +32,7 @@ const recruiterSchema = new Schema({
     },
     assignedJobs: [{
         type: Schema.Types.ObjectId,
-        ref: 'JobOpportunity'
+        ref: 'jobopportunities'
     }],
     createdAt: {
         type: Date,
@@ -44,4 +44,5 @@ const recruiterSchema = new Schema({
     }
 }, { timestamps: true });
 
-const Recruiter = mongoose.model('Recruiters', recruiterSchema);
+const Recruiter = mongoose.model('recruiters', recruiterSchema);
+module.exports =Recruiter;

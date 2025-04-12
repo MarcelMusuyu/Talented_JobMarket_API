@@ -19,13 +19,13 @@ router.post('/login', userController.login);
 
 // GET applicant by ID (protected route - requires authentication)
 router.get('/candidates/:id',
-    // authMiddleware, // Uncomment if authentication is required for this route
+    auth, 
     userController.getCandidateById
 );
 
 // GET all candidates (protected route - requires authentication)
 router.get('/candidates',
-    // authMiddleware, // Uncomment if authentication is required for this route
+     auth, 
     userController.getAllCandidates
 );
 

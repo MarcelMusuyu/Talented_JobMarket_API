@@ -3,12 +3,12 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const applicantSchema = new Schema({
-      firstName: {
+      firstname: {
         type: String,
         required: true,
         trim: true
     },
-    lastName: {
+    lastname: {
         type: String,
         trim: true
     },
@@ -30,7 +30,7 @@ const applicantSchema = new Schema({
     },
     applications: [{
         type: Schema.Types.ObjectId,
-        ref: 'Application'
+        ref: 'applications'
     }],
     createdAt: {
         type: Date,
@@ -42,6 +42,6 @@ const applicantSchema = new Schema({
     }
 }, { timestamps: true });
 
-const Applicant = mongoose.model('Applicants', applicantSchema);
+const Applicant = mongoose.model('applicants', applicantSchema);
 
 module.exports = Applicant;

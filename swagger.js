@@ -9,9 +9,9 @@ const doc = {
     description: 'API documentation for the Talented JobMarket application. This API facilitates the recruitment process, managing user accounts (candidates and recruiters) and job applications.',
     version: '1.0.0', // Add a version
   },
-  host: 'localhost:3000', // Replace with your host (e.g., your Render URL or domain)
-  basePath: '/api', // If you have a base path for your API (e.g., /api)
-  schemes: ['http'], // Or ['http', 'https'] if you support both
+  host: 'talented-jobmarket-api.onrender.com', // Replace with your host (e.g., your Render URL or domain)
+  basePath: '/', // If you have a base path for your API (e.g., /api)
+  schemes: ['https'], // Or ['http', 'https'] if you support both
   securityDefinitions: {
     bearerAuth: {
       type: 'apiKey',
