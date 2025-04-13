@@ -169,7 +169,7 @@ const login = async (req, res) => {
             { expiresIn: '1h' },
             (err, token) => {
                 if (err) throw err;
-                res.header('Authorization', `Bearer ${token}`).json({ message: 'Login successful' });
+                res.header('Authorization', `Bearer ${token}`).json({ message: 'Login successful', token:token });
             }
         );
     } catch (err) {
