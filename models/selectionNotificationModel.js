@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const selectionNotificationSchema = new Schema({
     application: {
         type: Schema.Types.ObjectId,
-        ref: 'Application',
+        ref: 'applications',
         required: true,
         unique: true // One notification per application
     },

@@ -45,7 +45,9 @@ const upload = multer({
 
 const getApplications = async (req, res) => {
     try {
-        const applications = await Application.find().populate('applicant jobOpportunity');
+        const applications = await Application.find().populate('jobOpportunity','title')
+        .populate('applicant', 'firstName lastName email profile');
+        ;
         res.setHeader('Content-Type', 'application/json');
         res.json(applications);
     } catch (err) {
@@ -65,7 +67,9 @@ const getCandidates = async (req, res) => {
 
 const getApplicationById = async (req, res) => {
     try {
-        const application = await Application.findById(req.params.id).populate('applicant jobOpportunity');
+        const application = await Application.findById(req.params.id).populate('JobOpportunity')
+          .populate('applicant', 'firstName lastName email profile');
+        ;
         if (!application) return res.status(404).json({ message: 'Application not found' });
         res.setHeader('Content-Type', 'application/json');
         res.json(application);
@@ -77,6 +81,8 @@ const getApplicationById = async (req, res) => {
 const addApplicationValidationRules = [
     body('applicant').notEmpty().withMessage('Applicant ID is required'),
     body('jobOpportunity').notEmpty().withMessage('Job Opportunity ID is required'),
+    body('email').isEmail().withMessage('Email must be a valid email address'),
+        body('email').notEmpty().withMessage('Email is required'),
     body('skills').optional().isArray().trim(),
     body('languages').optional().isArray().trim(),
 ];
@@ -97,10 +103,15 @@ const addApplication = async (req, res) => {
         }
 
         try {
-            const { applicant, jobOpportunity, skills, languages } = req.body;
+            const { jobOpportunity,email, skills, languages } = req.body;
             let resumeUrl = null;
             let coverLetterUrl = null;
             let transcriptUrl = null;
+            let applicant=null;
+             const user = await Applicant.findOne({ email });
+            if (!user) {
+                 applicant= user.Id;
+            }
 
             if (req.files?.resume && req.files.resume[0]) {
                 resumeUrl = path.join(githubRepository, req.files.resume[0].filename);
@@ -140,6 +151,8 @@ const addApplication = async (req, res) => {
 const updteApplicationValidationRules = [
     body('applicant').optional().notEmpty().withMessage('Applicant ID is required'),
     body('jobOpportunity').optional().notEmpty().withMessage('Job Opportunity ID is required'),
+    body('email').optional().isEmail().withMessage('Email must be a valid email address'),
+    body('email').optional().notEmpty().withMessage('Email is required'),
     body('skills').optional().isString().trim(),
     body('languages').optional().isString().trim(),
     body('status').optional().isIn(['pending', 'reviewed', 'shortlisted', 'interviewing', 'offered', 'rejected']).withMessage('Invalid status value'),
@@ -210,6 +223,7 @@ module.exports = {
     deleteApplication,
     addApplicationValidationRules,
     updteApplicationValidationRules,
+    upload,
 };
 
 // --- Endpoints Needed for this Controller ---

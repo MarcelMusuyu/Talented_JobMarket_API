@@ -516,6 +516,9 @@
                 "jobOpportunity" :{
                   "example": "any"
                 },
+                "email": {
+                  "example": "any"
+                },
                 "resume" :{
                   "example": "any"
                 },
@@ -604,6 +607,9 @@
                   "example": "any"
                 },
                 "jobOpportunity" :{
+                  "example": "any"
+                },
+                "email": {
                   "example": "any"
                 },
                 "resume" :{

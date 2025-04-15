@@ -6,7 +6,7 @@ const auth = require('../middleware/auth'); // Optional: for protecting routes
 // --- Applicant/Recruiter Registration and Login ---
 
 // POST register a new user (applicant or recruiter)
-router.post('/register',
+router.post('/register',userController.upload.single('profile'),
     userController.addUserValidationRules,
     // Middleware for handling profile image upload
     userController.addUser

@@ -129,8 +129,8 @@ const deleteJobOpportunity = async (req, res) => {
 const getSelectionNotificationsByJobOpportunity = async (req, res) => {
     try {
         const { jobOpportunityId } = req.params;
-        const notifications = await SelectionNotification.find({ jobOpportunity: jobOpportunityId })
-            .populate('application', 'applicant jobOpportunity resume coverLetter transcript')
+        const notifications = await SelectionNotification.find({ jobopportunities: jobOpportunityId })
+            .populate('applications', 'applicant jobOpportunit resume coverLetter transcript')
             .populate('recruiter', 'enterprise email')
             .populate('applicant', 'firstName lastName email');
         res.status(200).json(notifications);
@@ -187,7 +187,7 @@ const updateSelectionNotification = async (req, res) => {
             req.params.id,
             req.body,
             { new: true, runValidators: true }
-        ).populate('application', 'applicant jobOpportunity resume coverLetter transcript')
+        ).populate('applications', 'applicant jobOpportunity resume coverLetter transcript')
          .populate('recruiter', 'enterprise email')
          .populate('applicant', 'firstName lastName email')
          .populate('jobOpportunity', 'title');

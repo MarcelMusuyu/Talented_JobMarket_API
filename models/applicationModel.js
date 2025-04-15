@@ -12,6 +12,14 @@ const applicationSchema = new Schema({
         ref: 'jobopportunities',
         required: true
     },
+    email: {
+        type: String,
+        required: true,
+        unique: true,
+        trim: true,
+        lowercase: true,
+        match: [/.+@.+\..+/, 'Please enter a valid email address']
+    },
     resume: {
         type: String, 
         required: true
@@ -55,7 +63,7 @@ const applicationSchema = new Schema({
 }, { timestamps: true });
 
 // Ensure that an applicant can only apply once to the same job
-applicationSchema.index({ applicant: 1, jobOpportunity: 1 }, { unique: true });
+applicationSchema.index({ applicants: 1, jobopportunities: 1 }, { unique: true });
 
 const Application = mongoose.model('applications', applicationSchema);
 

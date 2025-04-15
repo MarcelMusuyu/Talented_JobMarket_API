@@ -20,6 +20,12 @@ router.get('/:id',
 
 // POST a new application (protected route - requires authentication)
 router.post('/',
+    applicationController.upload.fields([
+            { name: 'resume', maxCount: 1 },
+            { name: 'coverLetter', maxCount: 1 },
+            { name: 'transcript', maxCount: 1 },
+        ]),
+
     authMiddleware,
    
     applicationController.addApplicationValidationRules,
@@ -28,6 +34,11 @@ router.post('/',
 
 // PUT update an application by ID (protected route - requires authentication)
 router.put('/:id',
+     applicationController.upload.fields([
+            { name: 'resume', maxCount: 1 },
+            { name: 'coverLetter', maxCount: 1 },
+            { name: 'transcript', maxCount: 1 },
+        ]),
     authMiddleware,
     applicationController.updteApplicationValidationRules,
     applicationController.updateApplication
