@@ -30,6 +30,9 @@
             "schema": {
               "type": "object",
               "properties": {
+                "type_user":{
+                  "example":"['candidate','recruiter']" 
+                },
                 "firstname": {
                   "example": "any"
                 },
@@ -38,14 +41,10 @@
                 },
                 "email": {
                   "example": "any"
-                },
-                "type_user":{
-                  "example":"['candidate','recruiter']" 
-                },
-                "profile": {
-                  "example": "any"
-                },
+                },   
                 "password": {
+                  "example": "any"
+                },"profile": {
                   "example": "any"
                 }
               }
@@ -729,19 +728,7 @@
                 }
               }
             },
-            "profile": {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string",
-                  "example": "string"
-                },
-                "example": {
-                  "type": "string",
-                  "example": "https://example.com/profile.jpg"
-                }
-              }
-            },
+           
             "password": {
               "type": "object",
               "properties": {
@@ -752,6 +739,19 @@
                 "example": {
                   "type": "string",
                   "example": "Password123"
+                }
+              }
+            },
+             "profile": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "example": {
+                  "type": "string",
+                  "example": "https://example.com/profile.jpg"
                 }
               }
             }
@@ -824,19 +824,7 @@
                 }
               }
             },
-            "profile": {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string",
-                  "example": "string"
-                },
-                "example": {
-                  "type": "string",
-                  "example": "https://example.com/profile.jpg"
-                }
-              }
-            },
+            
             "password": {
               "type": "object",
               "properties": {
@@ -847,6 +835,19 @@
                 "example": {
                   "type": "string",
                   "example": "RecruiterPass"
+                }
+              }
+            },
+            "profile": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "example": {
+                  "type": "string",
+                  "example": "https://example.com/profile.jpg"
                 }
               }
             }

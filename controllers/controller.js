@@ -74,6 +74,7 @@ const upload = multer({
 
 
 const addUserValidationRules = [
+    body('type_user').notEmpty().withMessage('The user type is required'),
     body('firstname').notEmpty().withMessage('Firstname is required'),
     body('lastname').notEmpty().withMessage('Lastname is required'),
     body('type_user').notEmpty().withMessage('User Type name is required'),
@@ -81,91 +82,49 @@ const addUserValidationRules = [
     body('email').notEmpty().withMessage('Email is required'),
     body('password').isLength({ min: 6 }).withMessage('Password must be at least 6 characters long'),
     body('password').notEmpty().withMessage('Password is required'),
+    body('profile').notEmpty().withMessage('Profile is required'),
 ];
-// const addUser = async (req, res) => {
-//     const errors = validationResult(req);
-//     if (!errors.isEmpty()) {
-//         return res.status(400).json({ errors: errors.array() });
-//     }
-//     let userprofilePath = null; // Initialize local profile path
-//     let newUser = null;
 
-//     upload.single('profile')(req, res, async (err) => { // Use multer middleware here
-//         if (err) {
-//             return res.status(400).json({ message: err.message });
-//         }
-
-//         userprofilePath = profilePath; // Get the determined profile path (GitHub URL)
-
-//         const hash = await bcrypt.hash(req.body.password, 10);
-//         try {
-//             if (req.body.type_user === 'candidate') {
-//                 const candidate = new Applicant({
-//                     firstName: req.body.firstname,
-//                     lastName: req.body.lastname,
-//                     email: req.body.email,
-//                     profile: userprofilePath,
-//                     password: hash
-//                 });
-//                 newUser = await candidate.save();
-//             } else  if (req.body.type_user === 'recruiter'){
-//                 const recruiter = new Recruiter({
-//                     enterprise: req.body.firstname,
-//                     type: req.body.lastname,
-//                     email: req.body.email,
-//                     profile: userprofilePath,
-//                     password: hash
-//                 });
-//                 newUser = await recruiter.save();
-//             }
-
-//             if (!newUser) return res.status(400).json({ message: 'User not created' });
-
-//             res.status(201).json(newUser);
-//         } catch (error) {
-//             res.status(400).json({ message: error.message });
-//         }
-//     });
-// };
 
 const addUser = async (req, res) => {
   console.log(req.body);
   let userprofilePath = null; // Initialize local profile path
   let newUser = null;
 
-  // Use multer middleware here
-  upload.single('profile')(req, res, async (err) => {
-    if (err) {
-      return res.status(400).json({ message: err.message });
-    }
-
+  
     // Get the determined profile path (GitHub URL)
     userprofilePath = profilePath;
-    const errors = validationResult(req.body);
-    console.log(errors);
-    if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
+    if(!req.body.profile ){
+        req.body.profile = userprofilePath;
     }
-  
+    console.log(req.body);
+    const errors = validationResult(req.body);
+    
+    console.log(errors.array());
+     if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });                                                                                                                                                                                                                                                                                                                                                                                            
+    }
 
     const hash = await bcrypt.hash(req.body.password, 10);
     try {
       if (req.body.type_user === 'candidate') {
         const candidate = new Applicant({
-          firstName: req.body.firstname,
-          lastName: req.body.lastname,
+         type_user:req.body.type_user,
+          firstname: req.body.firstname,
+          lastname: req.body.lastname,
           email: req.body.email,
-          profile: userprofilePath,
           password: hash,
+           profile: userprofilePath,
         });
         newUser = await candidate.save();
       } else if (req.body.type_user === 'recruiter') {
         const recruiter = new Recruiter({
+          type_user:req.body.type_user,   
           enterprise: req.body.firstname,
           type: req.body.lastname,
           email: req.body.email,
-          profile: userprofilePath,
           password: hash,
+          profile: userprofilePath,
         });
         newUser = await recruiter.save();
       }
@@ -177,8 +136,7 @@ const addUser = async (req, res) => {
     } catch (error) {
       res.status(400).json({ message: error.message });
     }
-  });
-};
+  }
 
 
 

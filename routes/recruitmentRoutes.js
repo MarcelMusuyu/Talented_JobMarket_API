@@ -5,10 +5,10 @@ const auth = require('../middleware/auth');
 // --- Job Opportunity Routes ---
 
 // GET all job opportunities
-router.get('/',auth, recruitmentController.getJobOpportunities);
+router.get('/', recruitmentController.getJobOpportunities);
 
 // GET job opportunity by ID
-router.get('/:id',auth, recruitmentController.getJobOpportunityById);
+router.get('/:id', recruitmentController.getJobOpportunityById);
 
 // GET job opportunities by status
 router.get('/status/:status',auth, recruitmentController.getJobOpportunitiesByStatus);

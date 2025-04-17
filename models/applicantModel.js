@@ -3,6 +3,11 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const applicantSchema = new Schema({
+      type_user: {
+        type: String,
+        required: true,
+        trim: true
+    }, 
       firstname: {
         type: String,
         required: true,
@@ -20,13 +25,13 @@ const applicantSchema = new Schema({
         lowercase: true,
         match: [/.+@.+\..+/, 'Please enter a valid email address']
     },
-     profile: {
-        type: String,
-        trim: true
-    },
     password: {
         type: String,
         required: true
+    },
+     profile: {
+        type: String,
+        trim: true
     },
     applications: [{
         type: Schema.Types.ObjectId,
