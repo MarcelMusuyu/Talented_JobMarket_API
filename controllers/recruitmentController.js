@@ -50,7 +50,6 @@ const createJobOpportunityValidationRules = [
     body('education').optional().isString().trim(),
     body('experience').optional().isString().trim(),
     body('closingDate').optional().isISO8601().toDate().withMessage('Invalid closing date format'),
-    body('closingDate').optional().isISO8601().toDate().withMessage('Invalid closing date format'),
     body('recruiter').notEmpty().isMongoId().withMessage('Recruiter ID is required and must be a valid Mongo ID'),
     body('status').optional().isIn(['open', 'closed', 'draft']).withMessage('Invalid status value'),
 ];

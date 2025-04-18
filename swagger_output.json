@@ -515,9 +515,6 @@
                 "jobOpportunity" :{
                   "example": "any"
                 },
-                "email": {
-                  "example": "any"
-                },
                 "resume" :{
                   "example": "any"
                 },
@@ -602,13 +599,11 @@
             "schema": {
               "type": "object",
               "properties": {
+               
                 "applicant" :{
                   "example": "any"
                 },
                 "jobOpportunity" :{
-                  "example": "any"
-                },
-                "email": {
                   "example": "any"
                 },
                 "resume" :{

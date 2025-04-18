@@ -12,20 +12,15 @@ const applicationSchema = new Schema({
         ref: 'jobopportunities',
         required: true
     },
-    email: {
-        type: String,
-        required: true,
-        unique: true,
-        trim: true,
-        lowercase: true,
-        match: [/.+@.+\..+/, 'Please enter a valid email address']
-    },
     resume: {
         type: String, 
         required: true
     },
     coverLetter: {
         type: String 
+    },
+    transcript : {
+        type: String // URLs or paths to other relevant documents
     },
      skills: [{
         type: String,
@@ -35,9 +30,7 @@ const applicationSchema = new Schema({
         type: String,
         trim: true
     }],
-    transcript : {
-        type: String // URLs or paths to other relevant documents
-    },
+    
     appliedDate: {
         type: Date,
         default: Date.now

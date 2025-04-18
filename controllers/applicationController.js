@@ -81,10 +81,9 @@ const getApplicationById = async (req, res) => {
 const addApplicationValidationRules = [
     body('applicant').notEmpty().withMessage('Applicant ID is required'),
     body('jobOpportunity').notEmpty().withMessage('Job Opportunity ID is required'),
-    body('email').isEmail().withMessage('Email must be a valid email address'),
-        body('email').notEmpty().withMessage('Email is required'),
-    body('skills').optional().isArray().trim(),
-    body('languages').optional().isArray().trim(),
+    body('skills').isArray().withMessage('Requirements must be an array'),
+    body('languages').isArray().withMessage('Responsibilities must be an array'),
+    
 ];
 
 const addApplication = async (req, res) => {
@@ -93,31 +92,20 @@ const addApplication = async (req, res) => {
         return res.status(400).json({ errors: errors.array() });
     }
 
-    upload.fields([
-        { name: 'resume', maxCount: 1 },
-        { name: 'coverLetter', maxCount: 1 },
-        { name: 'transcript', maxCount: 1 },
-    ])(req, res, async (err) => {
-        if (err) {
-            return res.status(400).json({ message: err.message });
-        }
-
         try {
-            const { jobOpportunity,email, skills, languages } = req.body;
+            const { jobOpportunity,email } = req.body;
             let resumeUrl = null;
             let coverLetterUrl = null;
             let transcriptUrl = null;
             let applicant=null;
              const user = await Applicant.findOne({ email });
             if (!user) {
-                 applicant= user.Id;
+                 applicant= user._id;
             }
 
             if (req.files?.resume && req.files.resume[0]) {
                 resumeUrl = path.join(githubRepository, req.files.resume[0].filename);
-            } else {
-                return res.status(400).json({ message: 'Resume file is required.' });
-            }
+            } 
 
             if (req.files?.coverLetter && req.files.coverLetter[0]) {
                 coverLetterUrl = path.join(githubRepository, req.files.coverLetter[0].filename);
@@ -128,13 +116,15 @@ const addApplication = async (req, res) => {
             }
 
             const application = new Application({
-                applicant: applicant,
+                applicant:applicant,
                 jobOpportunity: jobOpportunity,
                 resume: resumeUrl,
                 coverLetter: coverLetterUrl,
-                skills: skills,
-                languages: languages,
+                
                 transcript: transcriptUrl,
+                skills: req.body.skills,
+                languages: req.body.languages,
+                status: 'pending',
             });
 
             const newApplication = await application.save();
@@ -145,16 +135,13 @@ const addApplication = async (req, res) => {
         } catch (error) {
             res.status(400).json({ message: error.message });
         }
-    });
-};
+    }
 
 const updteApplicationValidationRules = [
-    body('applicant').optional().notEmpty().withMessage('Applicant ID is required'),
+     body('applicant').optional().notEmpty().withMessage('Applicant ID is required'),
     body('jobOpportunity').optional().notEmpty().withMessage('Job Opportunity ID is required'),
-    body('email').optional().isEmail().withMessage('Email must be a valid email address'),
-    body('email').optional().notEmpty().withMessage('Email is required'),
-    body('skills').optional().isString().trim(),
-    body('languages').optional().isString().trim(),
+    body('skills').optional().isArray().withMessage('Requirements must be an array'),
+    body('languages').optional().isArray().withMessage('Responsibilities must be an array'),
     body('status').optional().isIn(['pending', 'reviewed', 'shortlisted', 'interviewing', 'offered', 'rejected']).withMessage('Invalid status value'),
     body('selection').optional().isString().trim(), // Assuming SelectionNotification ID
 ];
