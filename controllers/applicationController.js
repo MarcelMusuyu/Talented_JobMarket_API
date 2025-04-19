@@ -7,23 +7,36 @@ const express = require('express');
 
 const utilities = require('../utilities');
 const { body, validationResult } = require('express-validator');
+const fs = require('fs');
 const multer = require('multer');
 const path = require('path');
-
 // GitHub repository URL for file access
 const githubRepository = "https://github.com/MarcelMusuyu/Talented_JobMarket_API/blob/main/uploads/";
 
 // Configure Multer for local file storage
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        let folder = 'uploads'; // All uploaded files will go to the 'uploads' folder
-        cb(null, path.join(__dirname, folder));
-    },
+            let folder = 'uploads'; // Default folder
+            if (file.fieldname === 'profile') {
+                folder = 'uploads'; // Profile folder
+                profilePath = path.join(__dirname,'..', folder); // Store the local profile path
+            }
+            
+            const uploadPath = path.join(__dirname,'..', folder);
+    
+                // Create the directory if it doesn't exist
+            fs.mkdirSync(uploadPath, { recursive: true }); // Ensure directory exists
+    
+            cb(null, uploadPath); // Set the destination directory
+            
+        },
     filename: function (req, file, cb) {
-        const { applicant, jobOpportunity } = req.body; // Assuming these IDs are available
+        const {  jobOpportunity } = req.body; // Assuming these IDs are available
         const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
         const fileExtension = path.extname(file.originalname);
-        const filename = `${applicant}_${jobOpportunity}_${file.fieldname}_${uniqueSuffix}${fileExtension}`;
+    
+        const   filename = `${file.fieldname}_${jobOpportunity}_${uniqueSuffix}${fileExtension}`;
+    
         cb(null, filename);
     },
 });
@@ -79,7 +92,7 @@ const getApplicationById = async (req, res) => {
 };
 
 const addApplicationValidationRules = [
-    body('applicant').notEmpty().withMessage('Applicant ID is required'),
+   
     body('jobOpportunity').notEmpty().withMessage('Job Opportunity ID is required'),
     body('skills').isArray().withMessage('Requirements must be an array'),
     body('languages').isArray().withMessage('Responsibilities must be an array'),
@@ -97,8 +110,9 @@ const addApplication = async (req, res) => {
             let resumeUrl = null;
             let coverLetterUrl = null;
             let transcriptUrl = null;
-            let applicant=null;
+            let applicant="67f9c6431bc52d4d93e40775";
              const user = await Applicant.findOne({ email });
+             console.log(user)
             if (!user) {
                  applicant= user._id;
             }
@@ -138,7 +152,7 @@ const addApplication = async (req, res) => {
     }
 
 const updteApplicationValidationRules = [
-     body('applicant').optional().notEmpty().withMessage('Applicant ID is required'),
+    
     body('jobOpportunity').optional().notEmpty().withMessage('Job Opportunity ID is required'),
     body('skills').optional().isArray().withMessage('Requirements must be an array'),
     body('languages').optional().isArray().withMessage('Responsibilities must be an array'),
