@@ -1,6 +1,7 @@
 /* eslint-disable no-undef */
 
 const Applicant = require('../models/applicantModel');
+const Recruiter = require('../models/recruiterModel');
 const Application = require('../models/applicationModel');
 // eslint-disable-next-line no-unused-vars
 const express = require('express');
@@ -107,15 +108,23 @@ const addApplication = async (req, res) => {
 
         try {
             const { jobOpportunity,email } = req.body;
+	   console.log(	email);
             let resumeUrl = null;
             let coverLetterUrl = null;
             let transcriptUrl = null;
+            let user = null;
             let applicant="67f9c6431bc52d4d93e40775";
-             const user = await Applicant.findOne({ email });
-             console.log(user)
-            if (!user) {
+             user = await Applicant.findOne({ email });
+            if(user == null){
+                user = await Recruiter.findOne({ email });
+		 if (user != null) {
                  applicant= user._id;
+                }else{ 
+                   applicant= "67f9c6431bc52d4d93e40775";
+                }
             }
+             console.log(user)
+           
 
             if (req.files?.resume && req.files.resume[0]) {
                 resumeUrl = path.join(githubRepository, req.files.resume[0].filename);
