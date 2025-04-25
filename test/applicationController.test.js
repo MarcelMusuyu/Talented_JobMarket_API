@@ -49,7 +49,7 @@ describe('Application Controller Tests', () => {
   describe('getApplications', () => {
     it('should return all applications with populated jobOpportunity and applicant data', async () => {
       // Create test data
-      const mockApplicant = await Applicant.create({ firstName: 'John', lastName: 'Doe', email: 'john.doe@example.com' });
+      const mockApplicant = await Applicant.create({ firstName: 'John', lastname: 'Doe', email: 'john.doe@example.com' });
       const mockJobOpportunity = await JobOpportunity.create({ title: 'Software Engineer' });
       const mockApplication = await Application.create({
         applicant: mockApplicant._id,
@@ -77,8 +77,8 @@ describe('Application Controller Tests', () => {
       expect(res.json).toHaveBeenCalledWith(expect.arrayContaining([
         expect.objectContaining({
           applicant: expect.objectContaining({
-            firstName: 'John',
-            lastName: 'Doe',
+            firstname: 'John',
+            lastname: 'Doe',
             email: 'john.doe@example.com'
           }),
           jobOpportunity: expect.objectContaining({
@@ -122,8 +122,8 @@ describe('Application Controller Tests', () => {
       expect(res.setHeader).toHaveBeenCalledWith('Content-Type', 'application/json');
       expect(res.json).toHaveBeenCalledWith(
         expect.arrayContaining([
-          expect.objectContaining({ firstName: 'Alice', lastName: 'Smith', email: 'alice.smith@example.com' }),
-          expect.objectContaining({ firstName: 'Bob', lastName: 'Johnson', email: 'bob.johnson@example.com' }),
+          expect.objectContaining({ firstname: 'Alice', lastname: 'Smith', email: 'alice.smith@example.com' }),
+          expect.objectContaining({ firstname: 'Bob', lastname: 'Johnson', email: 'bob.johnson@example.com' }),
         ])
       );
     });
@@ -147,7 +147,7 @@ describe('Application Controller Tests', () => {
   describe('getApplicationById', () => {
     it('should return the application with the specified ID and populated data', async () => {
       // Create test data
-      const mockApplicant = await Applicant.create({ firstName: 'Jane', lastName: 'Doe', email: 'jane.doe@example.com' });
+      const mockApplicant = await Applicant.create({ firstname: 'Jane', lastname: 'Doe', email: 'jane.doe@example.com' });
       const mockJobOpportunity = await JobOpportunity.create({ title: 'Senior Developer' });
       const mockApplication = await Application.create({
         applicant: mockApplicant._id,
