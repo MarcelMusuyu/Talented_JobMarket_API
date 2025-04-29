@@ -60,7 +60,7 @@ const upload = multer({
 const getApplications = async (req, res) => {
     try {
         const applications = await Application.find().populate('jobOpportunity','title')
-        .populate('applicant', 'firstName lastName email profile');
+        .populate('applicant', 'firstname lastname email profile');
         ;
         res.setHeader('Content-Type', 'application/json');
         res.json(applications);
@@ -81,8 +81,8 @@ const getCandidates = async (req, res) => {
 
 const getApplicationById = async (req, res) => {
     try {
-        const application = await Application.findById(req.params.id).populate('JobOpportunity')
-          .populate('applicant', 'firstName lastName email profile');
+        const application = await Application.findById(req.params.id).populate('jobOpportunity', 'title')
+          .populate('applicant', 'firstname lastname email profile');
         ;
         if (!application) return res.status(404).json({ message: 'Application not found' });
         res.setHeader('Content-Type', 'application/json');
@@ -115,15 +115,16 @@ const addApplication = async (req, res) => {
             let user = null;
             let applicant="67f9c6431bc52d4d93e40775";
              user = await Applicant.findOne({ email });
-            if(user == null){
+             if(user != null){
+                applicant= user._id;
+            }else{
                 user = await Recruiter.findOne({ email });
-		 if (user != null) {
-                 applicant= user._id;
-                }else{ 
+		            if (user != null) {
+                        applicant= user._id;
+                    }else{ 
                    applicant= "67f9c6431bc52d4d93e40775";
                 }
             }
-             console.log(user)
            
 
             if (req.files?.resume && req.files.resume[0]) {

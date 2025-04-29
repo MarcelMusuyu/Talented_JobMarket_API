@@ -169,23 +169,32 @@ const getUserByEmail = async (req, res) => {
 
 
 const login = async (req, res) => {
-    const { email, password } = req.body;
+    // const { email, password } = req.body;
     try {
         const user = await getUserByEmail(req, res);
+        let userType = null;
         if (!user) return res.status(400).json({ message: 'Invalid credentials' });
+        if (user.enterprise) {
+            userType = 'recruiter';
+        }else if (user.firstname) {
+            userType = 'candidate';
+        } else {
+            return res.status(400).json({ message: 'Invalid user type' });
+        }
         const payload = {
             user: {
                 id: user.id,
-                type_user: user.type_user,
+                role: userType
             },
         };
+       
         jwt.sign(
             payload,
             process.env.JWT_SECRET,
             { expiresIn: '1h' },
             (err, token) => {
                 if (err) throw err;
-                res.header('Authorization', `Bearer ${token}`).json({ message: 'Login successful', token:token });
+                res.header('Authorization', `Bearer ${token}`).json({ message: 'Login successful', token:token,user:payload.user});
             }
         );
     } catch (err) {
